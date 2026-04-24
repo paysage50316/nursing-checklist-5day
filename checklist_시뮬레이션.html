@@ -197,7 +197,7 @@
         <p style="font-size:11px;color:var(--text-muted);margin-top:10px;line-height:1.7">
           • Y+D 또는 N+D 동시 체크 가능<br>
           • 버튼 재클릭 시 선택 해제<br>
-          • ACLS 섹션은 <span style="background:var(--t1-bg);color:var(--t1-color);padding:1px 5px;border-radius:4px;font-weight:700">1조</span>·<span style="background:var(--t2-bg);color:var(--t2-color);padding:1px 5px;border-radius:4px;font-weight:700">2조</span> 각각 체크
+          • 모든 항목을 <span style="background:var(--t1-bg);color:var(--t1-color);padding:1px 5px;border-radius:4px;font-weight:700">1조</span>·<span style="background:var(--t2-bg);color:var(--t2-color);padding:1px 5px;border-radius:4px;font-weight:700">2조</span> 각각 체크
         </p>
       </div>
     </div>
@@ -208,16 +208,7 @@
 
     <div class="summary-bar">
       <div style="display:flex;flex-direction:column;gap:4px">
-        <div style="display:flex;align-items:center;gap:6px">
-          <span class="summary-label">BLS/ROSC</span>
-          <div class="summary-pills">
-            <span class="sp sp-y" id="sum-common-y">Y 0</span>
-            <span class="sp sp-n" id="sum-common-n">N 0</span>
-            <span class="sp sp-d" id="sum-common-d">D 0</span>
-          </div>
-        </div>
-        <div style="display:flex;align-items:center;gap:6px">
-          <span class="summary-label" style="color:var(--t1-color)">ACLS 1조</span>
+        <div style="display:flex;align-items:center;gap:6px"><span class="summary-label" style="color:var(--t1-color)">1조 전체</span>
           <div class="summary-pills">
             <span class="sp sp-y" id="sum-t1-y">Y 0</span>
             <span class="sp sp-n" id="sum-t1-n">N 0</span>
@@ -225,7 +216,7 @@
           </div>
         </div>
         <div style="display:flex;align-items:center;gap:6px">
-          <span class="summary-label" style="color:var(--t2-color)">ACLS 2조</span>
+          <span class="summary-label" style="color:var(--t2-color)">2조 전체</span>
           <div class="summary-pills">
             <span class="sp sp-y" id="sum-t2-y">Y 0</span>
             <span class="sp sp-n" id="sum-t2-n">N 0</span>
@@ -275,21 +266,48 @@
 // type: 'common' = 단일 체크 / 'dual' = 1조·2조 각각 체크
 const ITEMS = [
   // BLS
-  {num:1,  sec:'BLS', scBg:'#e0f2fe', scTx:'#0369a1', type:'common',
-   text:'양쪽 어깨를 두드리며 큰소리로 불러 반응 없음을 확인한다.'},
-  {num:2,  sec:null, type:'common', text:'도움(심정지 방송과 제세동기)을 요청한다.'},
-  {num:3,  sec:null, type:'common', text:'5-10초간 호흡(무호흡 또는 비정상호흡)과 맥박(경동맥, 대퇴동맥)을 동시에 확인한다.'},
-  {num:4,  sec:null, type:'common', text:'고품질의 가슴압박을 시행한다.'},
-  {num:5,  sec:null, type:'common', text:'도움요청을 듣고 원내 3000번 신고를 한 후 E-cart(제세동기)를 가져간다.'},
-  {num:6,  sec:null, type:'common', text:'Defibrillation mode로 제세동기를 켠다.'},
-  {num:7,  sec:null, type:'common', text:'Pads를 정확한 위치에 부착한다.'},
-  {num:8,  sec:null, type:'common', text:'Paddle에 연결된 Multifunction cable을 분리하여 Pads와 연결한다.'},
-  {num:9,  sec:null, type:'common', text:'Lead를 확인한 후 (필요 시)Pads로 lead를 변경한다.'},
-  {num:10, sec:null, type:'common', text:'Ambu에 fitting mask, reservior bag, O2 line을 연결하여 30:2의 비율로 인공호흡을 실시한다.'},
-  {num:11, sec:null, type:'common', text:'CPR 팀이 도착하면 환자를 돌려 등 밑에 CPR board를 넣는다.'},
-  {num:12, sec:null, type:'common', text:'최소한의 중단으로 가슴압박을 교대한다.'},
-  {num:13, sec:null, type:'common', text:'교대 후 담당간호사는 기록을 시작한다.'},
-  {num:14, sec:null, type:'common', text:'동료 간호사는 인공호흡을 교대한 후 제세동기를 담당한다.'},
+  {num:1,  sec:'BLS', scBg:'#e0f2fe', scTx:'#0369a1', type:'dual',
+   t1:'양쪽 어깨를 두드리며 큰소리로 불러 반응 없음을 확인한다.',
+   t2:'양쪽 어깨를 두드리며 큰소리로 불러 반응 없음을 확인한다.'},
+  {num:2,  sec:null, type:'dual',
+   t1:'도움(심정지 방송과 제세동기)을 요청한다.',
+   t2:'도움(심정지 방송과 제세동기)을 요청한다.'},
+  {num:3,  sec:null, type:'dual',
+   t1:'5-10초간 호흡(무호흡 또는 비정상호흡)과 맥박(경동맥, 대퇴동맥)을 동시에 확인한다.',
+   t2:'5-10초간 호흡(무호흡 또는 비정상호흡)과 맥박(경동맥, 대퇴동맥)을 동시에 확인한다.'},
+  {num:4,  sec:null, type:'dual',
+   t1:'고품질의 가슴압박을 시행한다.',
+   t2:'고품질의 가슴압박을 시행한다.'},
+  {num:5,  sec:null, type:'dual',
+   t1:'도움요청을 듣고 원내 3000번 신고를 한 후 E-cart(제세동기)를 가져간다.',
+   t2:'도움요청을 듣고 원내 3000번 신고를 한 후 E-cart(제세동기)를 가져간다.'},
+  {num:6,  sec:null, type:'dual',
+   t1:'Defibrillation mode로 제세동기를 켠다.',
+   t2:'Defibrillation mode로 제세동기를 켠다.'},
+  {num:7,  sec:null, type:'dual',
+   t1:'Pads를 정확한 위치에 부착한다.',
+   t2:'Pads를 정확한 위치에 부착한다.'},
+  {num:8,  sec:null, type:'dual',
+   t1:'Paddle에 연결된 Multifunction cable을 분리하여 Pads와 연결한다.',
+   t2:'Paddle에 연결된 Multifunction cable을 분리하여 Pads와 연결한다.'},
+  {num:9,  sec:null, type:'dual',
+   t1:'Lead를 확인한 후 (필요 시)Pads로 lead를 변경한다.',
+   t2:'Lead를 확인한 후 (필요 시)Pads로 lead를 변경한다.'},
+  {num:10, sec:null, type:'dual',
+   t1:'Ambu에 fitting mask, reservior bag, O2 line을 연결하여 30:2의 비율로 인공호흡을 실시한다.',
+   t2:'Ambu에 fitting mask, reservior bag, O2 line을 연결하여 30:2의 비율로 인공호흡을 실시한다.'},
+  {num:11, sec:null, type:'dual',
+   t1:'CPR 팀이 도착하면 환자를 돌려 등 밑에 CPR board를 넣는다.',
+   t2:'CPR 팀이 도착하면 환자를 돌려 등 밑에 CPR board를 넣는다.'},
+  {num:12, sec:null, type:'dual',
+   t1:'최소한의 중단으로 가슴압박을 교대한다.',
+   t2:'최소한의 중단으로 가슴압박을 교대한다.'},
+  {num:13, sec:null, type:'dual',
+   t1:'교대 후 담당간호사는 기록을 시작한다.',
+   t2:'교대 후 담당간호사는 기록을 시작한다.'},
+  {num:14, sec:null, type:'dual',
+   t1:'동료 간호사는 인공호흡을 교대한 후 제세동기를 담당한다.',
+   t2:'동료 간호사는 인공호흡을 교대한 후 제세동기를 담당한다.'},
 
   // ACLS — dual (1조·2조 각각 다른 내용 + 각각 체크)
   {num:15, sec:'ACLS', scBg:'#fee2e2', scTx:'#dc2626', type:'dual',
@@ -330,10 +348,15 @@ const ITEMS = [
    t2:'"Epinephrine 1mg을 투여하겠습니다" 라고 말한다.'},
 
   // ROSC
-  {num:27, sec:'ROSC', scBg:'#dcfce7', scTx:'#16a34a', type:'common',
-   text:'(강사가) "리듬을 확인하겠습니다" (라고 말하면) 심전도 리듬을 출력한다.'},
-  {num:28, sec:null, type:'common', text:'맥박(경동맥)을 확인한다.'},
-  {num:29, sec:null, type:'common', text:'ROSC 되었음을 알린다.'},
+  {num:27, sec:'ROSC', scBg:'#dcfce7', scTx:'#16a34a', type:'dual',
+   t1:'(강사가) "리듬을 확인하겠습니다" (라고 말하면) 심전도 리듬을 출력한다.',
+   t2:'(강사가) "리듬을 확인하겠습니다" (라고 말하면) 심전도 리듬을 출력한다.'},
+  {num:28, sec:null, type:'dual',
+   t1:'맥박(경동맥)을 확인한다.',
+   t2:'맥박(경동맥)을 확인한다.'},
+  {num:29, sec:null, type:'dual',
+   t1:'ROSC 되었음을 알린다.',
+   t2:'ROSC 되었음을 알린다.'},
 ];
 
 const SEC_IDS = { 'ACLS':'sec-acls', 'ROSC':'sec-rosc' };
@@ -395,7 +418,6 @@ function refreshDualBtns(team, num) {
 function updateTotals() {
   ['y','n','d'].forEach(v=>{
     const V=v.toUpperCase();
-    document.getElementById('sum-common-'+v).textContent=V+' '+countCommon(V);
     document.getElementById('sum-t1-'+v).textContent=V+' '+countDual('t1',V);
     document.getElementById('sum-t2-'+v).textContent=V+' '+countDual('t2',V);
   });
@@ -407,7 +429,6 @@ function renderTable() {
   document.getElementById('tableHead').innerHTML=`<tr>
     <th class="col-num">연번</th>
     <th class="col-content">내용</th>
-    <th class="col-single">Y / N / D</th>
     <th class="col-t1">🔵 1조</th>
     <th class="col-t2">🟣 2조</th>
   </tr>`;
@@ -417,26 +438,11 @@ function renderTable() {
   ITEMS.forEach(item=>{
     if(item.sec){
       const aid=SEC_IDS[item.sec]?` id="${SEC_IDS[item.sec]}"` :'';
-      const colspan = 5;
+      const colspan = 4;
       html+=`<tr class="sec-header"${aid}><td colspan="${colspan}"><span class="sec-badge" style="background:${item.scBg};color:${item.scTx}">${item.sec}</span></td></tr>`;
     }
-    if(item.type==='common'){
-      const c=getCommon(item.num);
-      html+=`<tr id="row-${item.num}">
-        <td class="num-cell">${item.num}</td>
-        <td class="content-cell" colspan="1">${item.text}</td>
-        <td class="check-cell">
-          <div class="ynd-group">
-            <button id="cb-${item.num}-Y" class="check-btn${c.Y?' active-y':''}" onclick="toggleCommon(${item.num},'Y')">Y</button>
-            <button id="cb-${item.num}-N" class="check-btn${c.N?' active-n':''}" onclick="toggleCommon(${item.num},'N')">N</button>
-            <button id="cb-${item.num}-D" class="check-btn${c.D?' active-d':''}" onclick="toggleCommon(${item.num},'D')">D</button>
-          </div>
-        </td>
-        <td class="t1-cell" style="color:var(--text-muted);font-size:11px">—</td>
-        <td class="t2-cell" style="color:var(--text-muted);font-size:11px">—</td>
-      </tr>`;
-    } else {
-      // dual: 내용이 같으면 한 칸, 다르면 표시
+    {
+      // 모든 항목 dual 처리
       const t1c=getDual('t1',item.num);
       const t2c=getDual('t2',item.num);
       const sameText = item.t1===item.t2;
@@ -449,7 +455,6 @@ function renderTable() {
                <div class="t2-content"><span class="team-tag tag-t2">2조</span>${item.t2}</div>`
           }
         </td>
-        <td class="check-cell" style="color:var(--text-muted);font-size:11px">—</td>
         <td class="t1-cell">
           <div class="ynd-group">
             <button id="db-t1-${item.num}-Y" class="check-btn${t1c.Y?' active-y':''}" onclick="toggleDual('t1',${item.num},'Y')">Y</button>
@@ -472,7 +477,6 @@ function renderTable() {
 
 function resetAll(){
   if(!confirm('모든 체크를 초기화하시겠습니까?')) return;
-  checksCommon={};
   checksDual={t1:{},t2:{}};
   renderTable();
   updateTotals();
@@ -506,21 +510,7 @@ function showToast(msg){
 }
 
 function openResult(){
-  // 미체크 확인: common items
-  const uncheckedCommon=ITEMS.filter(i=>i.type==='common').filter(i=>{
-    const c=checksCommon[i.num];
-    return !c||(!c.Y&&!c.N&&!c.D);
-  });
   document.querySelectorAll('tr.row-missing').forEach(r=>r.classList.remove('row-missing'));
-  if(uncheckedCommon.length>0){
-    uncheckedCommon.forEach(i=>{
-      const row=document.getElementById('row-'+i.num);
-      if(row) row.classList.add('row-missing');
-    });
-    document.getElementById('row-'+uncheckedCommon[0].num)?.scrollIntoView({behavior:'smooth',block:'center'});
-    showToast(`BLS/ROSC 미체크 항목 ${uncheckedCommon.length}개 (연번 ${uncheckedCommon.map(i=>i.num).join(', ')})`);
-    return;
-  }
 
   const today=new Date();
   document.getElementById('resultDate').textContent=
@@ -530,26 +520,22 @@ function openResult(){
   const team=document.getElementById('teamInput').value.trim();
   const memo=document.getElementById('memoText').value.trim();
 
+  const t1y=countDual('t1','Y'), t1n=countDual('t1','N'), t1d=countDual('t1','D');
+  const t2y=countDual('t2','Y'), t2n=countDual('t2','N'), t2d=countDual('t2','D');
+
+  // 평균: Y/N/D 각각 두 조의 평균 (소수점 첫째 자리)
+  const avgY = ((t1y+t2y)/2).toFixed(1);
+  const avgN = ((t1n+t2n)/2).toFixed(1);
+  const avgD = ((t1d+t2d)/2).toFixed(1);
+
   let html='<div class="result-info">';
   if(instructor) html+=`<strong>🎓 강사</strong>&nbsp;&nbsp;${instructor.replace(/</g,'&lt;')}<br>`;
   if(team) html+=`<strong>👥 교육생</strong>&nbsp;&nbsp;${team.replace(/</g,'&lt;')}<br>`;
   html+='</div>';
 
-  // BLS/ROSC 합계
-  const cy=countCommon('Y'),cn=countCommon('N'),cd=countCommon('D');
+  // 1조 합계
   html+=`<div class="result-section">
-    <div class="result-section-label">BLS / ROSC 합계</div>
-    <div class="result-row"><div class="result-pills">
-      <span class="rp rp-y">Y ${cy}</span>
-      <span class="rp rp-n">N ${cn}</span>
-      <span class="rp rp-d">D ${cd}</span>
-    </div></div>
-  </div>`;
-
-  // 1조 ACLS
-  const t1y=countDual('t1','Y'),t1n=countDual('t1','N'),t1d=countDual('t1','D');
-  html+=`<div class="result-section">
-    <div class="result-section-label" style="color:var(--t1-color)">🔵 1조 ACLS 합계</div>
+    <div class="result-section-label" style="color:var(--t1-color)">🔵 1조 합계</div>
     <div class="result-row"><div class="result-pills">
       <span class="rp rp-y">Y ${t1y}</span>
       <span class="rp rp-n">N ${t1n}</span>
@@ -557,14 +543,26 @@ function openResult(){
     </div></div>
   </div>`;
 
-  // 2조 ACLS
-  const t2y=countDual('t2','Y'),t2n=countDual('t2','N'),t2d=countDual('t2','D');
+  // 2조 합계
   html+=`<div class="result-section">
-    <div class="result-section-label" style="color:var(--t2-color)">🟣 2조 ACLS 합계</div>
+    <div class="result-section-label" style="color:var(--t2-color)">🟣 2조 합계</div>
     <div class="result-row"><div class="result-pills">
       <span class="rp rp-y">Y ${t2y}</span>
       <span class="rp rp-n">N ${t2n}</span>
       <span class="rp rp-d">D ${t2d}</span>
+    </div></div>
+  </div>`;
+
+  // 구분선
+  html+=`<div style="border-top:2px solid var(--border-strong);margin:4px 0"></div>`;
+
+  // 두 조 평균
+  html+=`<div class="result-section">
+    <div class="result-section-label" style="color:var(--text-primary);font-size:13px">📊 최종 평균 (1조 + 2조)</div>
+    <div class="result-row"><div class="result-pills">
+      <span class="rp rp-y">Y ${avgY}</span>
+      <span class="rp rp-n">N ${avgN}</span>
+      <span class="rp rp-d">D ${avgD}</span>
     </div></div>
   </div>`;
 
